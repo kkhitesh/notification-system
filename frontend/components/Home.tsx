@@ -59,7 +59,12 @@ export const HomePage = () => {
                   </section>
                   <Link href={`/feedback/${feedback.id}`}>
                     <section className="float-right mt-3 gap-1 flex">
-                      <Button variant="filled" size="xs" radius="md">
+                      <Button
+                        variant="filled"
+                        size="xs"
+                        radius="md"
+                        color="blue"
+                      >
                         Reply privately
                       </Button>
                       <Button
