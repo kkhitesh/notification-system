@@ -1,8 +1,9 @@
 import express from 'express';
 
-import {getUnreadNotifications, updateNotification, } from '../controller/notifications';
+import {checkNewNotification, getAllNotifications, updateNotification, } from '../controller/notifications';
 
 export default (router: express.Router) => {
-  router.get("/notifications",getUnreadNotifications);
+  router.get("/notifications",getAllNotifications);
   router.patch("/notifications/:id",updateNotification);
+  router.get("/notifications/check", checkNewNotification);
 }

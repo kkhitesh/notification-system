@@ -5,8 +5,10 @@ import "@mantine/core/styles.css";
 
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { Header } from "@/components/Header";
+import { ReactQueryProvider } from "./ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
   title: "Notification System Demo",
@@ -19,6 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    <ReactQueryProvider>
     <html lang="en">
       <head>
         <ColorSchemeScript />
@@ -31,5 +34,6 @@ export default function RootLayout({
         </MantineProvider>
       </body>
     </html>
+    </ReactQueryProvider>
   );
 }

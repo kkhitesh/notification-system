@@ -6,93 +6,14 @@ const prisma = new PrismaClient();
 export const getAllNotifications = async(req: express.Request, res: express.Response) => {
   try {
 
-    const notifications = await prisma.notifications.findMany();
-    console.log(notifications);
-
-    return res.status(200).json(notifications);
-
-  } catch (error) {
-      console.log(error);
-      res.status(400);
-  }
-}
-
-export const getUnreadNotifications = async(req: express.Request, res: express.Response) => {
-  try {
-
     const notifications = await prisma.notifications.findMany({
-      where: {
-        isRead: false
+      orderBy: {
+        createdAt: 'desc'
       }
     });
-    console.log(notifications);
 
     return res.status(200).json(notifications);
 
-  } catch (error) {
-      console.log(error);
-      res.status(400);
-  }
-}
-
-export const readNotification = async(req: express.Request, res: express.Response) => {
-  try {
-      
-      const {id} = req.params;
-
-      const notification = await prisma.notifications.findUnique({
-        where: {
-          id: Number(id)
-        }
-      });
-
-      if (!notification) {
-        throw new Error(`Notification with id ${id} not found.`);
-      }
-
-      const updatedNotification = await prisma.notifications.update({
-        where: {
-          id: Number(id)
-        },
-        data: {
-          isRead: true
-        }
-      });
-
-      return res.status(200).json(updatedNotification);
-  
-  } catch (error) {
-      console.log(error);
-      res.status(400);
-  }
-}
-
-export const unReadNotification = async(req: express.Request, res: express.Response) => {
-  try {
-      
-      const {id} = req.params;
-
-      const notification = await prisma.notifications.findUnique({
-        where: {
-          id: Number(id)
-        }
-      });
-
-      if (!notification) {
-        throw new Error(`Notification with id ${id} not found.`);
-      }
-
-      const updatedNotification = await prisma.notifications.update({
-        where: {
-          id: Number(id)
-        },
-        data: {
-          isRead: false
-        }
-      });
-
-      return res.status(200).json(updatedNotification);
-  
   } catch (error) {
       console.log(error);
       res.status(400);
@@ -126,6 +47,27 @@ export const updateNotification = async(req: express.Request, res: express.Respo
 
       return res.status(200).json(updatedNotification);
   
+  } catch (error) {
+      console.log(error);
+      res.status(400);
+  }
+}
+
+export const checkNewNotification = async(req: express.Request, res: express.Response) => {
+  try {
+
+    const notifications = await prisma.notifications.findMany({
+      where: {
+        isRead: false
+      }
+    });
+
+    if (notifications.length > 0) {
+      return res.status(200).json(true);
+    } else {
+      return res.status(200).json(false);
+    }
+
   } catch (error) {
       console.log(error);
       res.status(400);

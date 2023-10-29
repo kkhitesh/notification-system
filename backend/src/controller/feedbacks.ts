@@ -7,7 +7,6 @@ export const getAllFeedbacks = async(req: express.Request, res: express.Response
   try {
 
     const feedBacks = await prisma.feedbacks.findMany();
-    console.log(feedBacks);
 
     return res.status(200).json(feedBacks);
 
